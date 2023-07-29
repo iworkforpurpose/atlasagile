@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ATLAS AGILE - Football Tournament Registration</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 600px;
+      margin: 50px auto; /* Adjust top margin as needed */
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      animation: containerEntrance 1s ease-out;
+      position: relative;
+      animation: fadeIn 1s ease-out;
+      opacity: 0;
+    }
+
+    h1 {
+      color: #007bff;
+      text-align: center;
+    }
+
+    form {
+      display: grid;
+      gap: 15px;
+    }
+
+    label {
+      font-weight: bold;
+      color: #007bff;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="email"] {
+      width: 100%;
+      padding: 10px; /* Adjust padding as needed */
+      border: 1px solid #007bff;
+      border-radius: 5px;
+    }
+
+    button {
+      cursor: pointer;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 5px;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      animation: playerEntrance 0.5s ease-out;
+    }
+
+    /* Additional styling for the 'Add Player' button */
+    #addPlayerBtn {
+      background-color: #0056b3;
+    }
+
+    /* Additional styling for the 'Register' button */
+    #registrationForm button[type="submit"] {
+      background-color: #28a745;
+    }
+
+    /* Animation for the 'Add Player' button on hover */
+    #addPlayerBtn:hover {
+      background-color: #007bff;
+      transform: scale(1.05);
+    }
+
+    /* Animation for the form elements on focus */
+    input[type="text"]:focus,
+    input[type="tel"]:focus,
+    input[type="email"]:focus,
+    button[type="submit"]:focus {
+      box-shadow: 0 0 5px #007bff;
+    }
+
+    /* Animation for the form elements on submission */
+    #registrationForm.submitting input[type="text"],
+    #registrationForm.submitting input[type="tel"],
+    #registrationForm.submitting input[type="email"],
+    #registrationForm.submitting button[type="submit"] {
+      pointer-events: none;
+      opacity: 0.5;
+      transition: opacity 0.3s;
+    }
+
+    /* Cool animation for adding players */
+    @keyframes playerEntrance {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* Positioning for the logo */
+    #logo {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 80px; /* Adjust the width as needed */
+      height: auto; /* Maintain aspect ratio */
+      animation: fadeIn 1s ease-out;
+      opacity: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <img src="logo.png" alt="ATLAS AGILE Logo" id="logo">
+  <div class="container">
+    <h1>ATLAS AGILE - Football Tournament Registration</h1>
+    <form id="registrationForm" onsubmit="submitForm(event)">
+      <label for="teamName">Team Name:</label>
+      <input type="text" id="teamName" required>
+
+      <h2>Player Details:</h2>
+      <ul id="playerList">
+        <li>
+          <input type="text" class="playerName" placeholder="Player 1" required>
+        </li>
+      </ul>
+      <button type="button" id="addPlayerBtn" onclick="addPlayer()">Add Player</button>
+
+      <label for="phone">Phone Number:</label>
+      <input type="tel" id="phone" pattern="[0-9]{10}" required>
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" required>
+
+      <label for="upi">UPI Option to Pay:</label>
+      <input type="text" id="upi" required>
+
+      <button type="submit">Register</button>
+    </form>
+  </div>
+
+  <script>
+    let playerCount = 1;
+    const maxPlayers = 8;
+
+    function addPlayer() {
+      if (playerCount >= maxPlayers) {
+        alert("You cannot add more than 8 players.");
+        return;
+      }
+
+      playerCount++;
+      const playerList = document.getElementById("playerList");
+      const playerInput = document.createElement("li");
+      playerInput.innerHTML = `
+        <input type="text" class="playerName" placeholder="Player ${playerCount}" required>
+      `;
+      playerList.appendChild(playerInput);
+    }
+
+    function submitForm(event) {
+      event.preventDefault();
+      document.getElementById("registrationForm").classList.add("submitting");
+
+      // Simulate form submission delay (you can replace this with actual form submission)
+      setTimeout(() => {
+        const teamName = document.getElementById("teamName").value;
+        const players = Array.from(document.getElementsByClassName("playerName")).map(
+          (input) => input.value
+        );
+        const phone = document.getElementById("phone").value;
+        const email = document.getElementById("email").value;
+        const upi = document.getElementById("upi").value;
+
+        // Do something with the form data (e.g., send it to a server for processing)
+        // For demonstration purposes, we'll log the data to the console.
+        console.log("Team Name:", teamName);
+        console.log("Players:", players);
+        console.log("Phone Number:", phone);
+        console.log("Email:", email);
+        console.log("UPI Option to Pay:", upi);
+
+        // Clear the form after submission
+        document.getElementById("registrationForm").reset();
+        playerCount = 1;
+        const playerList = document.getElementById("playerList");
+        playerList.innerHTML = `
+          <li>
+            <input type="text" class="playerName" placeholder="Player 1" required>
+          </li>
+        `;
+      }, 1000); // Simulated 1-second delay for form submission
+
+      // Remove the 'submitting' class to re-enable form inputs after submission
+      setTimeout(() => {
+        document.getElementById("registrationForm").classList.remove("submitting");
+      }, 2000); // Wait for 2 seconds before re-enabling form inputs
+
+      // Redirect to the success page after form submission
+      setTimeout(() => {
+        window.location.href = "success.html";
+      }, 2500); // Wait for 2.5 seconds before redirecting to the success page
+    }
+
+    // Fade in the container and logo when the page loads
+    window.onload = () => {
+      document.querySelector(".container").style.opacity = 1;
+      document.querySelector("#logo").style.opacity = 1;
+    };
+  </script>
+</body>
+
+</html>
+
